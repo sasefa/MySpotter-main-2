@@ -1,0 +1,133 @@
+<div class="row justify-content-center">
+    <div class="col-8 mt-5 text-center">
+        <h3>{{workout.name}}</h3>
+    </div>
+    <div class="col-8 text-right mb-3">
+        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#createExerciseModal">
+            Add New Exercise
+        </button>
+    </div>
+
+    <div class="row justify-content-center">
+        {{#each exercises}}
+        <a href="/workouts/{{workoutId}}/exercises/{{id}}" class="col-md-4 mb-4 text-decoration-none text-dark">
+            <div class="card shadow-sm rounded">
+                <div class="card-body text-center">
+                    <p>Exercise Name: {{name}}</p>
+                    <p>Weight Used: {{weight}}</p>
+                    <p>Sets: {{sets}}</p>
+                    <p>Reps: {{reps}}</p>
+                    <div class="card-footer d-flex justify-content-between">
+                        <button class="btn btn-edit-exercise"
+        onclick="openEditModal(this)"
+        data-id="{{id}}"
+        data-name="{{name}}"
+        data-weight="{{weight}}"
+        data-sets="{{sets}}"
+        data-reps="{{reps}}">Edit</button>
+
+                        <button class="btn btn-outline-danger btn-sm btn-delete-exercise" data-id="{{id}}">
+                            <i class="fa fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {{/each}}
+    </div>
+<!-- Create Exercise Modal -->
+<div class="modal fade" id="createExerciseModal" tabindex="-1" aria-labelledby="createExerciseModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createExerciseModalLabel">Add New Exercise</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               <form class="new-exercise-form" method="POST">
+                    <div class="mb-3">
+                        <label for="exercise-name" class="form-label">Exercise Name</label>
+                        <input id="exercise-name" type="text" name="name" class="form-control" placeholder="Exercise Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="weight" class="form-label">Weight Used (Pounds)</label>
+                        <input id="weight" type="number" name="weight" class="form-control" placeholder="Weight" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="sets" class="form-label">Sets</label>
+                        <input id="sets" type="number" name="sets" class="form-control" placeholder="Sets" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="reps" class="form-label">Reps</label>
+                        <input id="reps" type="number" name="reps" class="form-control" placeholder="Reps" required>
+                    </div>
+                    <button type="submit" class="btn btn-outline-dark" data-bs-dismiss="modal">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Edit Exercise Modal -->
+<div class="modal fade" id="editExerciseModal" tabindex="-1" aria-labelledby="editExerciseModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editExerciseModalLabel">Edit Exercise</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="edit-exercise-form">
+          <input type="hidden" id="edit-exercise-id">
+          <div class="mb-3">
+            <label for="edit-exercise-name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="edit-exercise-name">
+          </div>
+          <div class="mb-3">
+            <label for="edit-exercise-weight" class="form-label">Weight</label>
+            <input type="number" class="form-control" id="edit-exercise-weight">
+          </div>
+          <div class="mb-3">
+            <label for="edit-exercise-sets" class="form-label">Sets</label>
+            <input type="number" class="form-control" id="edit-exercise-sets">
+          </div>
+          <div class="mb-3">
+            <label for="edit-exercise-reps" class="form-label">Reps</label>
+            <input type="number" class="form-control" id="edit-exercise-reps">
+          </div>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/edit-exercise.js"></script>
+<script src="/js/add-exercise.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var myModal = new bootstrap.Modal(document.getElementById("createExerciseModal"));
+    });
+    function openEditModal(button) {
+    // Get the exercise data from the button's data attributes
+    var id = button.getAttribute('data-id');
+    var name = button.getAttribute('data-name');
+    var weight = button.getAttribute('data-weight');
+    var sets = button.getAttribute('data-sets');
+    var reps = button.getAttribute('data-reps');
+
+    // Populate the edit modal with the exercise's current data
+    document.getElementById('edit-exercise-id').value = id;
+    document.getElementById('edit-exercise-name').value = name;
+    document.getElementById('edit-exercise-weight').value = weight;
+    document.getElementById('edit-exercise-sets').value = sets;
+    document.getElementById('edit-exercise-reps').value = reps;
+
+    // Open the edit modal
+    var editModal = new bootstrap.Modal(document.getElementById('editExerciseModal'));
+    editModal.show();
+}
+
+</script>

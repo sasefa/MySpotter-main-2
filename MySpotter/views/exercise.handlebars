@@ -1,0 +1,25 @@
+<div class="row justify-content-center">
+    <div class="col-8 mt-5 text-center">
+        <h2>{{this.workout.name}}</h2>
+    </div>
+    <div class="col-8 text-right mb-3">
+        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#createExerciseModal">
+            Add New Exercise
+        </button>
+    </div>
+    
+    <div class="row justify-content-center">
+        {{#each exercises}}
+            <a href="/exercises/{{id}}" class="col-md-4 mb-4 text-decoration-none text-dark"> 
+                <div class="card shadow-sm rounded">
+                    <div class="card-body text-center">
+                        <p>Exercise Name: {{name}}</p>
+                        <p>Weight Used : {{weight}}</p>
+                        <p>Sets: {{sets}}</p>
+                        <p>Reps: {{reps}}</p>
+                    </div>
+                </div>
+            </a> 
+        {{/each}}
+    </div>
+</div>
